@@ -1,0 +1,219 @@
+/* ============================================================
+ * 听海 · Seaside Breeze —— 界面样式（浅色玻璃拟态）
+ * ============================================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  background: #0e2a38;
+  user-select: none;
+}
+
+#gpuCanvas { display: block; width: 100%; height: 100%; outline: none; }
+
+/* ---------- 开始界面 ---------- */
+#startOverlay {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(160deg, rgba(14,42,56,0.30), rgba(255,244,214,0.18) 60%, rgba(14,42,56,0.34));
+  backdrop-filter: blur(3px);
+  transition: opacity 0.65s ease;
+}
+#startOverlay.hide { opacity: 0; pointer-events: none; }
+
+.start-card {
+  text-align: center;
+  color: #fff;
+  padding: 44px 60px;
+  border-radius: 22px;
+  background: rgba(10, 40, 55, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 24px 70px rgba(0, 20, 40, 0.35);
+  backdrop-filter: blur(14px);
+}
+.start-card .wave-ico { font-size: 40px; letter-spacing: 6px; }
+.start-card h1 {
+  font-size: 46px; font-weight: 700; letter-spacing: 10px;
+  margin: 10px 0 4px;
+  text-shadow: 0 3px 18px rgba(0, 30, 60, 0.45);
+}
+.start-card .sub {
+  font-size: 15px; letter-spacing: 4px; opacity: 0.85;
+  margin-bottom: 26px;
+}
+.key-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(190px, 1fr));
+  gap: 8px 26px; text-align: left;
+  font-size: 13.5px; line-height: 1.9;
+  margin: 0 auto 28px; width: fit-content;
+  color: rgba(255,255,255,0.92);
+}
+.key-grid kbd {
+  display: inline-block; min-width: 26px; text-align: center;
+  padding: 1px 7px; margin-right: 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-bottom-width: 2.5px;
+  font-family: inherit; font-size: 12px;
+}
+#btnStart {
+  cursor: pointer;
+  font-size: 17px; letter-spacing: 6px; font-weight: 600;
+  color: #0b4a5c;
+  padding: 13px 58px;
+  border: none; border-radius: 999px;
+  background: linear-gradient(135deg, #ffe9b8, #ffd98a);
+  box-shadow: 0 10px 26px rgba(255, 200, 100, 0.35), inset 0 1px 0 rgba(255,255,255,0.8);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+#btnStart:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(255, 200, 100, 0.5); }
+.foot-note { margin-top: 18px; font-size: 12px; opacity: 0.65; letter-spacing: 1px; }
+
+/* ---------- HUD ---------- */
+#hud { position: fixed; inset: 0; z-index: 20; pointer-events: none; opacity: 0; transition: opacity 0.6s; }
+#hud.show { opacity: 1; }
+
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 24px rgba(30, 60, 80, 0.12);
+  border-radius: 14px;
+  color: #1c4258;
+}
+
+/* 左上：天气卡 */
+#weatherCard {
+  position: absolute; top: 18px; left: 18px;
+  padding: 10px 16px 9px;
+  display: flex; align-items: center; gap: 14px;
+}
+#weatherCard .temp { font-size: 30px; font-weight: 300; }
+#weatherCard .temp sup { font-size: 14px; }
+#weatherCard .meta { font-size: 11.5px; line-height: 1.5; opacity: 0.85; }
+#weatherCard .divider { width: 1px; height: 34px; background: rgba(28,66,88,0.18); }
+
+/* 左上：品牌 + 模式 */
+#brandRow {
+  position: absolute; top: 86px; left: 18px;
+  display: flex; gap: 8px; align-items: center;
+}
+#brandRow .brand {
+  padding: 7px 14px; font-size: 12.5px; font-weight: 700; letter-spacing: 2.5px;
+  display: flex; align-items: center; gap: 7px;
+}
+#brandRow .brand .dot { width: 9px; height: 9px; border-radius: 50%; background: #17a2a2; box-shadow: 0 0 8px #17a2a2; }
+#chipMode {
+  padding: 7px 14px; font-size: 12.5px; font-weight: 600; letter-spacing: 1px;
+  border-radius: 999px;
+  background: rgba(23, 162, 162, 0.16);
+  border: 1px solid rgba(23, 162, 162, 0.4);
+  color: #0d6a6a;
+}
+
+/* 右侧工具栏 */
+#toolbar {
+  position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 8px;
+  pointer-events: auto;
+}
+#toolbar button {
+  width: 42px; height: 42px;
+  border: none; border-radius: 12px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 6px 16px rgba(30, 60, 80, 0.12);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: #1c4258;
+  transition: background 0.15s, transform 0.15s;
+}
+#toolbar button:hover { background: rgba(255, 255, 255, 0.85); transform: scale(1.06); }
+#toolbar button.off { opacity: 0.45; }
+#toolbar svg { width: 20px; height: 20px; }
+
+/* 底部提示栏 */
+#hintbar {
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  padding: 8px 20px;
+  font-size: 12.5px; letter-spacing: 1px;
+  color: #1c4258; white-space: nowrap;
+}
+#hintbar b { color: #0d6a6a; font-weight: 700; }
+
+/* 交互提示 */
+#prompt {
+  position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%) translateY(6px);
+  padding: 9px 22px;
+  font-size: 14px; font-weight: 600; letter-spacing: 1px;
+  color: #fff;
+  background: rgba(12, 48, 64, 0.62);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 999px;
+  opacity: 0; transition: opacity 0.2s, transform 0.2s;
+}
+#prompt.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* 暂停提示 */
+#continueHint {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  padding: 14px 30px;
+  font-size: 15px; letter-spacing: 2px; color: #fff;
+  background: rgba(12, 48, 64, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 14px; border: 1px solid rgba(255,255,255,0.25);
+  display: none;
+}
+#continueHint.show { display: block; }
+
+/* 帮助面板 */
+#helpPanel {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.96);
+  width: 380px; padding: 26px 30px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+#helpPanel.show { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+#helpPanel h3 { font-size: 17px; margin-bottom: 14px; color: #0d4a5e; letter-spacing: 2px; }
+#helpPanel .row { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; color: #33566b; }
+#helpPanel .row kbd {
+  padding: 1px 8px; border-radius: 5px;
+  background: rgba(28, 66, 88, 0.1);
+  border: 1px solid rgba(28, 66, 88, 0.25);
+  font-family: inherit; font-size: 11.5px;
+}
+
+/* 潜水色调 */
+#underwaterTint {
+  position: fixed; inset: 0; z-index: 15; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 45%, rgba(22, 106, 134, 0.16), rgba(4, 46, 74, 0.38));
+  opacity: 0; transition: opacity 0.25s;
+}
+#underwaterTint.show { opacity: 1; }
+
+/* 暗角 */
+#vignette {
+  position: fixed; inset: 0; z-index: 10; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 62%, rgba(10, 30, 45, 0.22) 100%);
+}
+
+/* 启动提示 */
+#bootTip {
+  position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%);
+  z-index: 30; padding: 12px 20px; font-size: 13.5px; letter-spacing: 0.5px;
+  color: #1c4258;
+}
+#bootTip.gone { display: none; }
+
+/* WebGPU 不可用时的错误提示 */
+#gpuError {
+  display: none; position: fixed; inset: 0; z-index: 60;
+  background: rgba(244, 247, 249, 0.96);
+  color: #14405a; font-size: 15px; line-height: 1.8;
+  padding: 60px 32px; text-align: center;
+}
